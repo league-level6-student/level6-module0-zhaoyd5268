@@ -35,15 +35,21 @@ public class CatFactsApi {
         This request doesn't require url parameters, so you can omit the .uri() method call entirely
         */
 
-
+    	Mono <String> mono = webClient
+    			.get()
+    			.retrieve()
+    			.bodyToMono(String.class);
+    			
         //Collect the response from the Mono object
-
+    
+    	String collection = mono.block();
 
         /*
         Print out the actual JSON response -
         this is what you will input into jsonschema2pojo.com
          */
 
+    	System.out.println("");
 
         /*
         Use http://www.jsonschema2pojo.org/ to generate your POJO
