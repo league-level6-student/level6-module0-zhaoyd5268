@@ -6,7 +6,7 @@ public class CatFactsRunner {
         CatFactsApi catFactsApi = new CatFactsApi();
         catFactsApi.testRequest();
 //        String catFact = catFactsApi.getCatFact();
-//        System.out.println(catFact);
+//       System.out.println(catFact);
     }
 
 }

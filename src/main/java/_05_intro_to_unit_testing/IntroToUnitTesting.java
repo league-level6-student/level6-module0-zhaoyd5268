@@ -26,19 +26,19 @@ import javax.swing.*;
 
 public class IntroToUnitTesting {
 
-    public int add(int a, int b){
+    public static int add(int a, int b){
         return a + b;
     }
 
-    public String sayHello(String name){
+    public static String sayHello(String name){
         return "Hello " + name;
     }
 
-    public JButton createButton(){
+    public static JButton createButton(){
         return new JButton("Click Here!");
     }
 
-    public void throwsException(){
+    public static void throwsException(){
         throw new IllegalArgumentException("This should throw an exception");
     }
 

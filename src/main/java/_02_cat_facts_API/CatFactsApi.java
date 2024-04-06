@@ -1,6 +1,9 @@
 package _02_cat_facts_API;
 
-import _02_cat_facts_API.data_transfer_objects.CatWrapper;
+import _02_cat_facts_API.data_transfer_objects.CatFacts;
+
+import java.util.ArrayList;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -43,13 +46,12 @@ public class CatFactsApi {
         //Collect the response from the Mono object
     
     	String collection = mono.block();
-
         /*
         Print out the actual JSON response -
         this is what you will input into jsonschema2pojo.com
          */
 
-    	System.out.println("");
+    	System.out.println(collection);
 
         /*
         Use http://www.jsonschema2pojo.org/ to generate your POJO
@@ -67,10 +69,17 @@ public class CatFactsApi {
         //Make the request, saving the response in an object of the type that you just created in your
         //data_transfer_objects package (CatWrapper)
 
+    	Mono<CatFacts> m = webClient
+    					  .get()
+    					  .retrieve()
+    					  .bodyToMono(CatFacts.class);
+    	
         //Use block() to collect the response into a java object using the class you just created
 
+    	String cf = m.block().toString();
+    	
         //return the Object
-        return null;
+        return cf;
 
 
     }
@@ -78,8 +87,10 @@ public class CatFactsApi {
     public String findCatFact(){
         //use the getCatFact method to retrieve a cat fact
 
+    	String cf = getCatFact();
+    	
         //return the first (and only) String in the Arraylist of data in the response
-        return null;
+        return cf;
     }
 
     public void setWebClient(WebClient webClient) {
