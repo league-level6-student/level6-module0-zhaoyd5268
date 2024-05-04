@@ -32,6 +32,8 @@ class NewsApiTest {
 	
 	@Mock
 	RequestHeadersUriSpec requestHeadersUriSpecMock;
+	
+	//create other mocks based on what is neccessary and on what is from src/test/java/CheetahSearchAPITest.java
 
     NewsApi newsApi;
 
@@ -53,9 +55,12 @@ class NewsApiTest {
     	
         when(webClientMock.get())
         	.thenReturn(requestHeadersUriSpecMock);
-        when(requestHeadersUriSpecMock.uri((Function <UriBuilder,URI>) any()));
+        when(requestHeadersUriSpecMock.uri((Function <UriBuilder,URI>) any()))
+        .thenReturn(requestHeadersSpecMock);
         
         //then
+        
+        
     }
 
     @Test

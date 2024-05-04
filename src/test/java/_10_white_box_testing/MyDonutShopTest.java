@@ -11,8 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import _08_mocking.models.DeliveryDriver;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -22,46 +21,60 @@ import java.util.ArrayList;
 class MyDonutShopTest {
 
     MyDonutShop myDonutShop;
+    
+    @Mock
     PaymentService ps;
+    @Mock
     BakeryService bs;
+    @Mock
+    DeliveryService ds;
+    
     @BeforeEach
     void setUp() {
     	
     	MockitoAnnotations.openMocks(this);
-    	ps = mock(PaymentService.class);
-    	bs = mock(BakeryService.class);
-    	myDonutShop = mock(MyDonutShop.class);
+    	myDonutShop = new MyDonutShop(ps, ds, bs);
     }
 
     @Test
     void itShouldTakeDeliveryOrder() throws Exception {
         //given
 //*		
-    	myDonutShop.openForTheDay();
     	
-    	Order order = mock(Order.class);
+    	Order order = new Order("Daniel Z",
+    			"8589437293",
+    			12,
+    			30,
+    			"489583857398",
+    			true);
         
     	//when
-
+    	
+    	when (bs.getDonutsRemaining()).thenReturn(55);
+    	when (ps.charge(order)).thenReturn(true);
+    	
+    	myDonutShop.openForTheDay();  
+    	
     	myDonutShop.takeOrder(order);
+    	
     	
         //then
     	
-    	verify(myDonutShop, times(1)).takeOrder(order);
+    	verify(ds, times(1)).scheduleDelivery(order);;
     	
     }
 
     @Test
-    void givenInsufficientDonutsRemaining_whenTakeOrder_thenThrowIllegalArgumentException() throws Exception {
+    void givenInsufficientDonutsRemaining_whenTakeOrder_thenThrowIllegalArgumentException() {
         //given
     	
     	myDonutShop.openForTheDay();
     	
     	Order order = new Order("Daniel Z",
-    			"8682938672",
-    			15,
-    			40,
-    			"29486723810487566",
+    			"8589437293",
+    			12,
+    			30,
+    			"489583857398",
     			false);
     	
         //when
@@ -70,12 +83,10 @@ class MyDonutShopTest {
     	when (bs.getDonutsRemaining()).thenReturn(0);
     	
     	//then
-    	
-    	Throwable ExceptionThrown = assertThrows(IllegalArgumentException.class, () -> myDonutShop.takeOrder(order));
-
-    	
-    	//help
-  
+    	System.out.println("hi");
+    	Throwable exceptionThrown = assertThrows(IllegalArgumentException.class, () -> myDonutShop.takeOrder(order));
+    	System.out.println("asdjfkl;");
+    	assertEquals(exceptionThrown.getMessage(), "Insufficient donuts remaining");
     }
 
     @Test
@@ -83,11 +94,18 @@ class MyDonutShopTest {
         //given
 
     	myDonutShop.closeForTheDay();
-    	Order order = mock(Order.class);
+    	Order order = new Order("Daniel Z",
+    			"8589437293",
+    			12,
+    			30,
+    			"489583857398",
+    			false);
     	
         //when
         //then
     	
+    	Throwable exceptionThrown = assertThrows(IllegalStateException.class, () -> myDonutShop.takeOrder(order));
+    	assertEquals(exceptionThrown.getMessage(), "Sorry we're currently closed");
     	//help
     	
     }

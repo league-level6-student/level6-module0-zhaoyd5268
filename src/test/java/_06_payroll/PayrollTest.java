@@ -1,38 +1,26 @@
 package _06_payroll;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class PayrollTest {
 
-class PayrollTest {
-
-    Payroll payroll = new Payroll();
-
-    @Test
-    void itShouldCalculatePaycheck() {
-        //given
-
-        //when
-
-        //then
-    }
-
-    @Test
-    void itShouldCalculateMileageReimbursement() {
-        //given
-
-        //when
-
-        //then
-    }
-
-    @Test
-    void itShouldCreateOfferLetter() {
-        //given
-
-        //when
-
-        //then
-    }
-
+	@Test
+	public void testCalculatePaycheck() {
+		double hourlyWage = 20;
+		int numHours = 7;
+		assertEquals(Payroll.calculatePaycheck(hourlyWage, numHours), 140);
+		
+	}
+	
+	@Test
+	public void testCalculateMileageReimbursement() {
+		assertEquals(Payroll.calculateMileageReimbursement(15), 8.625);
+	}
+	
+	@Test
+	public void testCreateOfferLetter() {
+		assertEquals(Payroll.createOfferLetter("Daniel", 90), "Hello Daniel, We are pleased to offer you an hourly wage of 90");
+	}
+	
 }
